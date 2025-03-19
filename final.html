@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajira Club Kisii</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .left, .right {
+            width: 100%;
+            height: 100%;
+        }
+        .left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgb(48, 152, 48);
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+        }
+        input, button, select {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+        }
+        button {
+            background: green;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        button:hover {
+            background: red;
+            color: white;
+            opacity: 0.8;
+        }
+        p a {
+            color: yellow;
+            text-decoration: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .grid-milestones, .grid-reports, .grid-events {
+            background-color: red;
+            color: white;
+            text-align: center;
+            font-family: Arial;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginPage" class="container">
+        <div class="left">
+            <img class="mikaels" src="thumbnails/ksii.jpeg" alt="Ajira Image">
+        </div>
+        <div class="right">
+            <h1>WELCOME TO AJIRA CLUB KISII</h1>
+            <input type="text" id="username" placeholder="Enter your Official Name" required>
+            <input type="password" id="password" placeholder="Enter your Password" required>
+            <button onclick="login()">Login</button>
+            <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up!</a></p>
+        </div>
+    </div>
+
+    <div id="signupPage" class="container hidden">
+        <div class="left"></div>
+        <div class="right">
+            <h1>Sign Up</h1>
+            <input type="text" id="newUsername" placeholder="Enter your Official Name" required>
+            <input type="text" id="regNumber" placeholder="Enter Registration Number" required>
+            <input type="password" id="newPassword" placeholder="Set Password" required>
+            <button onclick="signup()">Sign Up</button>
+            <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+        </div>
+    </div>
+
+    <div id="dashboard" class="container hidden">
+        <div class="content">
+            <h1>Welcome, <span id="displayName"></span></h1>
+            <p>Registration Number: <span id="displayReg"></span></p>
+            <button onclick="window.location.href='https://www.ajiradigital.go.ke'">Online Trainings</button>
+            <select id="jobSitesDropdown" onchange="openJobSite()">
+                <option value="">Select a Job Site</option>
+                <option value="https://www.utest.com">U-Test</option>
+                <option value="https://www.timebucks.com">Timebucks</option>
+                <option value="https://www.upwork.com">Upwork</option>
+                <option value="https://www.fiverr.com">Fiverr</option>
+                <option value="https://www.freelancer.com">Freelancer</option>
+                <option value="https://www.nodesk.com">No-desk</option>
+                <option value="https://www.toptal.com">Toptal</option>
+            </select>
+            <div class="grid-milestones" onclick="openMilestonesPage()">LEGACY & MILESTONES</div>
+            <div class="grid-reports">REPORTS & MEMBERS</div>
+            <div class="grid-events">UPCOMING EVENTS</div>
+        </div>
+    </div>
+
+    <script>
+        function showSignup() {
+            document.getElementById("loginPage").classList.add("hidden");
+            document.getElementById("signupPage").classList.remove("hidden");
+        }
+        function showLogin() {
+            document.getElementById("signupPage").classList.add("hidden");
+            document.getElementById("loginPage").classList.remove("hidden");
+        }
+        function signup() {
+            let newUser = document.getElementById("newUsername").value;
+            let regNumber = document.getElementById("regNumber").value;
+            let newPass = document.getElementById("newPassword").value;
+            localStorage.setItem("username", newUser);
+            localStorage.setItem("regNumber", regNumber);
+            localStorage.setItem("password", newPass);
+            alert("Sign-up successful! Please log in.");
+            showLogin();
+        }
+        function login() {
+            let user = document.getElementById("username").value;
+            let pass = document.getElementById("password").value;
+            let storedUser = localStorage.getItem("username");
+            let storedPass = localStorage.getItem("password");
+            let regNumber = localStorage.getItem("regNumber");
+            if (user === storedUser && pass === storedPass) {
+                document.getElementById("loginPage").classList.add("hidden");
+                document.getElementById("dashboard").classList.remove("hidden");
+                document.getElementById("displayName").innerText = storedUser;
+                document.getElementById("displayReg").innerText = regNumber;
+            } else {
+                alert("Invalid credentials!");
+            }
+        }
+        function openMilestonesPage() {
+            window.location.href = 'page/milestones.html';
+        }
+        function openJobSite() {
+            let site = document.getElementById("jobSitesDropdown").value;
+            if (site) {
+                window.open(site, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
